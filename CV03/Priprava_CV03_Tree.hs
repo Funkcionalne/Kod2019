@@ -49,13 +49,7 @@ maxBVS (Node left root right) = maxBVS right
 
 -- delete v strome, ale musi byt isBVS
 delete :: (Ord t) => t -> BVS t -> BVS t
-delete _ Nil = Nil
-delete x (Node left root Nil)   | x == root = left
-delete x (Node Nil root right)  | x == root = right
-delete x (Node left root right) | x == root = Node left maxBVSRight (delete maxBVSRight right)
-                                              where maxBVSRight = maxBVS right
-delete x (Node left root right) | x < root = Node (delete x left) root right
-                                | x > root = Node left root (delete x right)
+delete = undefined     -- fajn, ze si prisiel az sem, skus nieco aj sam na domacu ulohu :)
 
 {-                                
 e = Node Nil 4 (Node Nil 7 Nil)
@@ -65,11 +59,6 @@ delete 1 e = Node Nil 4 (Node Nil 7 Nil)
 -}
 
 -- ak sa x nachadza v strome, po delete bude o jeden uzol mensi                             
-qch9 = quickCheckWith stdArgs{ maxSuccess = 100000 }(
-      (\x -> \tree -> (isBVS tree && (find x tree)) ==> ((size (delete x tree)) == (size tree)-1))::Int->BVS Int->Property)         
-
 -- ak sa x nenachadza v strome po delete
-qch10 = quickCheckWith stdArgs{ maxSuccess = 100000 }(
-      (\x -> \tree -> (isBVS tree) ==> (not (find x (delete x tree))))::Int->BVS Int->Property)         
 
                                 
