@@ -10,16 +10,19 @@ data Exp = Const Int                -- konstanta
 instance Show Exp where
     show (Const x) = show x
     show (Var x) = x
-    show (Add x y) = "(" ++ show x ++ " + " ++ show y ++ ")"
-    show (Sub x y) = "(" ++ show x ++ " - " ++ show y ++ ")"
-    show (Mul x y) = show x ++ " * " ++ show y
-
+    show (Add l p)  = "(" ++ (show l) ++ "+" ++ (show p) ++ ")"
+    show (Sub l p) = "(" ++ (show l) ++ "-" ++ (show p) ++ ")"
+    show (Mul l p) = "(" ++ (show l) ++ "*" ++ (show p) ++ ")"
+        
+-- (x+x) * (x-1) + x
 e1 :: Exp        
 e1 = Add 
         (Mul (Add (Var "x")(Var "x") ) (Sub (Var "x")(Const 1))        )
         (Var "x")
-e2        :: Exp        
-e2 = (Mul (Add (Var "x") (Var "x")) (Sub (Var "x") (Const 1) )) 
+
+-- (x+x) * (x-1)
+e2 :: Exp        
+e2 = Mul (Add (Var "x") (Var "x")) (Sub (Var "x") (Const 1) )
 
 type Substitucia = String -> Exp                
 s :: Substitucia
@@ -29,10 +32,27 @@ s = (\var -> case var of
     )
 
 eval :: Exp -> Substitucia -> Exp
-eval  = undefined
-                
+eval  x@(Const c) s = x
+eval (Var x) s = s x
+eval (Add l p) s = makeAdd (eval l s) (eval p s)
+              
 derive :: Exp -> String -> Exp
-derive   = undefined
+derive (Const c) dx = Const 0
+derive (Var x) dx = if x==dx then Const 1 else Const 0
+derive (Add l p) dx = makeAdd (derive l dx) (derive p dx)
+
+-- jemne zjedodusujuci konstruktor suctu
+makeAdd :: Exp -> Exp -> Exp
+makeAdd (Const c1) (Const c2) = Const (c1+ c2)
+makeAdd e (Const 0) = e
+
+-- jemne zjedodusujuci konstruktor rozdielu
+makeSub :: Exp -> Exp -> Exp
+makeSub = undefined
+
+-- jemne zjedodusujuci konstruktor sucinu
+makeMul :: Exp -> Exp -> Exp
+makeMul = undefined
 
 simply :: Exp -> Exp
 simply   = undefined
