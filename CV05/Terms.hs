@@ -5,4 +5,4 @@ module Terms where
 type Var = String
 
 -- lambda termy
-data LExp = LAMBDA Var LExp | ID Var | APP LExp LExp  deriving(Show,Eq)
+data LExp = LAMBDA Var LExp | ID Var | APP LExp LExp  deriving(Eq)
