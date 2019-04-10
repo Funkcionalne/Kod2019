@@ -26,6 +26,7 @@ zero  = k i
 -- one  
 one = \f -> \x -> f x  
 one''   = i  
+--one''' = (s (s k))
 one'  = (s ( (s (k s)) ((s (k k) i)) )) (k i)
 two   = \f -> \x -> f (f x)
 two'   = (s (s (k s) k)) i  
@@ -59,7 +60,7 @@ false x y = y
 ch_and x y   = x y false
 ch_or x y    = x true y
 ch_not x     = x false true
-ch_xor       = undefined
+ch_xor x y   = x (ch_not y) y
 
 --PAIR := λx.λy.(λc. c x y) := λxyc. c x y
 -- LEFT := λx.x TRUE

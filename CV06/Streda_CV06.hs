@@ -112,6 +112,15 @@ fact n  =
      ifte (isZero n)
           one
           (mult n (fact (decr n)))
+
+{-
+fib :: (forall a. (a->a)->a->a) -> (a->a) -> a -> a        
+fib n  =
+     ifte (isZero n)
+          (ch_pair one one)
+          (let pom = fib (decr n) in (ch_pair (ch_right pom) (add (ch_left pom) (ch_right pom)) ))
+-}
+
     
 unChurch n = n (+1) (0)  
             
