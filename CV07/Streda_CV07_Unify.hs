@@ -67,7 +67,8 @@ add2Maybe c1 Nothing = Nothing
 add2Maybe c1 (Just cs) = Just (c1:cs) 
  
 
--- neprazdny zoznam termov oddelenych ciarkou Term { , Term}^* 
+-- neprazdny zoznam termov oddelenych ciarkou 
+-- <Args> := Term { , Term}^* 
 fromStringArgs  :: String -> ([Term], String)
 fromStringArgs xs = let (a, xs') = fromString xs in 
                        if not (null xs') &&  head xs' == ',' then 
@@ -76,9 +77,11 @@ fromStringArgs xs = let (a, xs') = fromString xs in
                        else ([a], tail xs')
 
 
+-- <Term> := digit | Variable | symbol [( <Args> )]
 fromString  :: String -> (Term, String)
 fromString (x:xs)   | isDigit x  = (CN (ord x-48), xs)
 fromString [x]      | isAlpha x && isLower x  = (Functor [x] [], [])
-fromString (x:y:xs) | isAlpha x && isLower x && y == '(' = let (args, xs') = fromStringArgs xs in (Functor [x] args, xs')
+fromString (x:y:xs) | isAlpha x && isLower x && y == '(' = let (args, xs') = 
+                           fromStringArgs xs in (Functor [x] args, xs')
 fromString (x:xs)   | isAlpha x && isUpper x  = (Var [x], xs)
 fromString  xs      = error ("syntax error: " ++ xs)                                                   
