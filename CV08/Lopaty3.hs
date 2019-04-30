@@ -1,9 +1,6 @@
 module Lopaty3 where
 
 import Text.ParserCombinators.Parsec 
-import Text.ParserCombinators.Parsec.Token
-import Text.ParserCombinators.Parsec.Expr
-import Text.ParserCombinators.Parsec.Language
 ----------------------------------------------
 run  :: Show a => Parser a -> String -> IO()
 run p input = case (parse p "" input) of

@@ -38,44 +38,12 @@ lopata' = do {  char '('
              ; if k /= 0 then fail "chyba }" else return ('}':xs, g, h, 1)
             }
          <|>
-         do {  char '('
-             ; return ("", 0, 0, 0)
-            }
-         <|>
-         do {  char '['
-             ; return ("", 0, 0, 0)
-            }
-         <|>
-         do {  char '['
-             ; return ("", 0, 0, 0)
-            }
-         <|>
-         do {  char ')'
-             ; return (")", 1, 0, 0)
-            }
-         <|>
-         do {  char ']'
-             ; return ("]", 0, 1, 0)
-            }
-         <|>
-         do {  char '}'
-             ; return ("}", 0, 0, 1)
-            }
-         <|>
          return ("", 0, 0, 0)
 
-
-{-
-run lopata "([{])}"  .. ok
-run lopata "([}{])"  .. ok
-    - parse lopata "([{)}]"
-    - parse lopata "([{)}]]"
--}
 lopata :: Parser String
 lopata = do { (xs,g,h,k) <- lopata'; 
                 if g == 0 && h == 0 && k == 0 then return xs else fail " nesedi to"
             }  
-
 
 t1 = run lopata "()"
 t2 = run lopata "([)]"

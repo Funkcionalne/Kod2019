@@ -1,9 +1,6 @@
 module Lopaty2 where
 
 import Text.ParserCombinators.Parsec 
-import Text.ParserCombinators.Parsec.Token
-import Text.ParserCombinators.Parsec.Expr
-import Text.ParserCombinators.Parsec.Language
 ----------------------------------------------
 run  :: Show a => Parser a -> String -> IO()
 run p input = case (parse p "" input) of
@@ -21,11 +18,11 @@ preprocess  xs =
                 ++ 
                 (filter ( `elem` lopata3) xs)
 
-parselopata3 :: Parser String
+parselopata3 :: Parser String        -- "{}"
 parselopata3    = string lopata3
-parselopata2 :: Parser String
+parselopata2 :: Parser String        -- "[]"
 parselopata2    = string lopata2
-parselopata1 :: Parser String
+parselopata1 :: Parser String        -- "()"
 parselopata1    = string lopata1
 
 -- treba docitat cely vstup...
